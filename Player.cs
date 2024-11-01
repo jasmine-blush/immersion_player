@@ -5,13 +5,17 @@ namespace immersion_player
     internal class Player
     {
         private readonly string _libraryPath;
-        private readonly string[] _library;
+        private readonly List<string> _library;
         private readonly Random _rng;
         private int _currentlyPlaying;
         private bool _paused;
         private float _fullVolume;
         private AudioFileReader? _audioFileReader;
         private readonly WaveOutEvent _outputDevice;
+
+        private readonly string[] _fileFormats = [
+            "mp3", "aac", "m4a", "wma", "ogg", "flac", "alac", "wav", "aiff", "dsd", "dff", "dsf"
+        ];
 
         internal Player(string filePath)
         {
@@ -22,11 +26,19 @@ namespace immersion_player
             _paused = false;
             _fullVolume = 1f;
 
+            _library = [];
             string[] allFiles = Directory.GetFiles(_libraryPath);
-            _library = allFiles.Where(file =>
-                file.EndsWith(".aac", StringComparison.OrdinalIgnoreCase) ||
-                file.EndsWith(".mp3", StringComparison.OrdinalIgnoreCase)
-            ).ToArray();
+            foreach(string file in allFiles)
+            {
+                string[] file_extensions = file.Split('.');
+                if(file_extensions.Length > 1)
+                {
+                    if(_fileFormats.Any(file_extensions[^1].Contains))
+                    {
+                        _library.Add(file);
+                    }
+                }
+            }
 
             _outputDevice = new() {
                 Volume = _fullVolume
@@ -41,7 +53,7 @@ namespace immersion_player
                 int nextPlaying;
                 do
                 {
-                    nextPlaying = _rng.Next(0, _library.Length);
+                    nextPlaying = _rng.Next(0, _library.Count);
                 }
                 while(nextPlaying == _currentlyPlaying);
                 _currentlyPlaying = nextPlaying;
