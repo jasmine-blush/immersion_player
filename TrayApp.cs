@@ -31,18 +31,21 @@
         {
             ContextMenuStrip menu = new();
 
+            ToolStripMenuItem currentlyPlayingItem = new("Currently Playing");
             ToolStripMenuItem playMenuItem = new("Play");
             ToolStripMenuItem pauseMenuItem = new("Pause");
             ToolStripMenuItem volumeMenuItem = new("High Volume");
             ToolStripMenuItem muteMenuItem = new("Unmuted");
             ToolStripMenuItem exitMenuItem = new("Exit");
 
+            menu.Items.Add(currentlyPlayingItem);
             menu.Items.Add(playMenuItem);
             menu.Items.Add(pauseMenuItem);
             menu.Items.Add(volumeMenuItem);
             menu.Items.Add(muteMenuItem);
             menu.Items.Add(exitMenuItem);
 
+            currentlyPlayingItem.Click += CurrentlyPlayingItem_Click;
             playMenuItem.Click += PlayMenuItem_Click;
             pauseMenuItem.Click += PauseMenuItem_Click;
             volumeMenuItem.Click += VolumeMenuItem_Click;
@@ -50,6 +53,12 @@
             exitMenuItem.Click += ExitMenuItem_Click;
 
             return menu;
+        }
+
+        private void CurrentlyPlayingItem_Click(object? sender, EventArgs e)
+        {
+            string fileName = MainPlayer.GetCurrentSong();
+            Clipboard.SetText(fileName);
         }
 
         private void PlayMenuItem_Click(object? sender, EventArgs e)
@@ -65,13 +74,13 @@
         private void VolumeMenuItem_Click(object? sender, EventArgs e)
         {
             bool lowVolume = MainPlayer.ToggleVolume();
-            _trayIcon.ContextMenuStrip!.Items[2].Text = lowVolume ? "Low Volume" : "High Volume";
+            _trayIcon.ContextMenuStrip!.Items[3].Text = lowVolume ? "Low Volume" : "High Volume";
         }
 
         private void MuteMenuItem_Click(object? sender, EventArgs e)
         {
             bool muted = MainPlayer.Mute();
-            _trayIcon.ContextMenuStrip!.Items[3].Text = muted ? "Muted" : "Unmuted";
+            _trayIcon.ContextMenuStrip!.Items[4].Text = muted ? "Muted" : "Unmuted";
         }
 
         private void ExitMenuItem_Click(object? sender, EventArgs e)

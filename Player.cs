@@ -117,6 +117,15 @@ namespace immersion_player
             }
         }
 
+        internal string GetCurrentSong()
+        {
+            if(_audioFileReader != null)
+            {
+                return _library[_currentlyPlaying];
+            }
+            return "null";
+        }
+
         internal void Dispose()
         {
             _audioFileReader?.Dispose();
