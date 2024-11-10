@@ -24,7 +24,7 @@ namespace immersion_player
             _rng = new Random();
             _currentlyPlaying = -1;
             _paused = false;
-            _fullVolume = 1f;
+            _fullVolume = 0.01f;
 
             _library = [];
             string[] allFiles = Directory.GetFiles(_libraryPath);
@@ -44,6 +44,7 @@ namespace immersion_player
                 Volume = _fullVolume
             };
             _outputDevice.PlaybackStopped += OutputDevice_PlaybackStopped;
+            Play();
         }
 
         internal void Play()

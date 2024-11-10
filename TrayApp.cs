@@ -34,7 +34,7 @@
             ToolStripMenuItem currentlyPlayingItem = new("Currently Playing");
             ToolStripMenuItem playMenuItem = new("Play");
             ToolStripMenuItem pauseMenuItem = new("Pause");
-            ToolStripMenuItem volumeMenuItem = new("High Volume");
+            ToolStripMenuItem volumeMenuItem = new("Low Volume");
             ToolStripMenuItem muteMenuItem = new("Unmuted");
             ToolStripMenuItem exitMenuItem = new("Exit");
 
